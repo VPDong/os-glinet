@@ -8,19 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: update system
+
+    - name: Update system
       run: |
         sudo apt update
         sudo apt upgrade -y
         sudo apt install build-essential libncurses5-dev gawk git libssl-dev gettext zlib1g-dev swig unzip time rsync python3 python3-setuptools python3-yaml -y
         git config --global user.email "test@163.com"
         git config --global user.name "test"
+        export GIT_SSL_NO_VERIFY=1
 
-    - name: build firmware
+    - name: Build firmware
       run: |
-        ./build.sh ~
+        ./build-axt1800.sh ~
 
-    - name: organize files
+    - name: Organize files
       id: organize
       if: true && !failure() && !cancelled()
       run: |
@@ -29,21 +31,18 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
         
-    - name: upload firmware
+    - name: Upload firmware directory
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled() && !failure()
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
-            
-    - name: generate release tag
-      id: tag
+        
+    - name: Upload firmware release
       if: true && !failure() && !cancelled()
       run: |
         echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
         echo "::set-output name=status::success"
-        
-    - name: upload firmware to release
       uses: softprops/action-gh-release@v1
       if: steps.tag.outputs.status == 'success' && !cancelled() && !failure()
       env:
