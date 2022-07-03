@@ -18,6 +18,7 @@ echo "start to build..."
 
 #clone source 
 git clone https://github.com/gl-inet/gl-infra-builder.git $base/gl-infra-builder
+rm -rf $base/gl-infra-builder/feeds/glinet/helloworld || pwd
 cp -r custom/  $base/gl-infra-builder/feeds/custom/
 cp -r custom.yml $base/gl-infra-builder/profiles
 cd $base/gl-infra-builder
