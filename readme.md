@@ -35,3 +35,16 @@
 └── readme.md
 ```
 
+
+
+### 三、官方编译流程图
+
+#### 3.1 gl-infra-builder流程
+
+todo
+
+
+
+#### 3.2 imagebuilder流程
+
+todo
