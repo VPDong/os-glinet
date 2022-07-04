@@ -32,7 +32,7 @@ fi
 cd $base/gl-infra-builder
 python3 setup.py -c config-wlan-ap.yml
 cd wlan-ap/openwrt
-if[ "$hasCustom" == "false" ]; then
+if [ $hasCustom == "false" ]; then
     /scripts/gen_config.py target_wlan_ap-gl-axt1800 luci
 else
     /scripts/gen_config.py target_wlan_ap-gl-axt1800 luci custom
